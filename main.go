@@ -1,13 +1,22 @@
 package main
 
 import (
+
 	// HTTPを扱うパッケージ(標準パッケージ)
+	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"time"
 
 	// pongo2テンプレートエンジン(Djangoライクな文法を利用できる)
 	"github.com/flosch/pongo2"
+
+	// Using MySQL driver
+	_ "github.com/go-sql-driver/mysql"
+
+	// ORM
+	"github.com/jmoiron/sqlx"
 
 	// GolangのWeb FWでAPIサーバーによく使われる(外部パッケージ)
 	"github.com/labstack/echo/v4"
@@ -19,9 +28,13 @@ import (
 // 相対パスを定数として宣言
 const tmplPath = "src/template/"
 
+var db *sqlx.DB
 var e = createMux()
 
 func main() {
+	// 自前実装の関数である connectDB() の戻り値をグローバル変数に格納
+	db = connectDB()
+
 	// `/` というパス（URL）と `articleIndex` という処理を結びつける(ルーティング追加)
 	e.GET("/", articleIndex)
 	e.GET("/new", articleNew)
@@ -30,6 +43,23 @@ func main() {
 
 	// Webサーバーをポート番号 8080 で起動する
 	e.Logger.Fatal(e.Start(":8080"))
+}
+
+// 開発用から本番用に切り替える場合でもソースコード自体を変更する必要は無くなる
+func connectDB() *sqlx.DB {
+	// os パッケージの Getenv() 関数を利用して環境変数から取得
+	dsn := os.Getenv("DSN")
+	db, err := sqlx.Open("mysql", dsn)
+	// DBへ接続が失敗した場合エラーをだす処理(if文)
+	if err != nil {
+		e.Logger.Fatal(err)
+	}
+	if err := db.Ping(); err != nil {
+		e.Logger.Fatal(err)
+	}
+	// DBへ接続が成功した場合の処理
+	log.Println("db connection successded")
+	return db
 }
 
 func createMux() *echo.Echo {
