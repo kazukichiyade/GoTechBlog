@@ -5,7 +5,9 @@ import (
 	"net/http"
 	"time"
 
+	// pongo2テンプレートエンジン(Djangoライクな文法を利用できる)
 	"github.com/flosch/pongo2"
+
 	// GolangのWeb FWでAPIサーバーによく使われる(外部パッケージ)
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -39,6 +41,7 @@ func createMux() *echo.Echo {
 	return e
 }
 
+// ハンドラ関数 テンプレートファイルとデータを指定して render() 関数を呼び出し
 func articleIndex(c echo.Context) error {
 	data := map[string]interface{}{
 		"Message": "Hello, World!",
