@@ -37,6 +37,9 @@ func createMux() *echo.Echo {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Gzip())
 
+	// `src/css` ディレクトリ配下のファイルに `/css` のパスでアクセスできるようにする
+	e.Static("/css", "src/css")
+
 	// アプリケーションインスタンスを返却
 	return e
 }
@@ -44,6 +47,7 @@ func createMux() *echo.Echo {
 // ハンドラ関数 テンプレートファイルとデータを指定して render() 関数を呼び出し
 func articleIndex(c echo.Context) error {
 	data := map[string]interface{}{
+		// HTMLでこれを使って表示する{{  }}
 		"Message": "Hello, World!",
 		"Now":     time.Now(),
 	}
