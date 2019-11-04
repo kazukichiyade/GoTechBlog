@@ -1,6 +1,7 @@
 package handler
 
 import (
+	// repository パッケージを利用するためインポート
 	"go-tech-blog/repository"
 	"log"
 
@@ -15,8 +16,9 @@ import (
 // ArticleIndex ...
 // ハンドラ関数 テンプレートファイルとデータを指定して render() 関数を呼び出し
 func ArticleIndex(c echo.Context) error {
-	// 記事データの一覧を取得する
+	// データベースから記事データの一覧を取得する
 	articles, err := repository.ArticleList()
+	// データベース操作でエラーが発生した場合の処理(500)
 	if err != nil {
 		log.Println(err.Error())
 		return c.NoContent(http.StatusInternalServerError)
