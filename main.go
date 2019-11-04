@@ -10,7 +10,7 @@ import (
 	// Using MySQL driver
 	_ "github.com/go-sql-driver/mysql"
 
-	// ORM
+	// ORM(DBから引っ張ってきたデータを構造体、マップ、スライスに当てはめる)
 	"github.com/jmoiron/sqlx"
 
 	// GolangのWeb FWでAPIサーバーによく使われる(外部パッケージ)
