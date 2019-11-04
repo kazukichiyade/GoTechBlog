@@ -2,6 +2,7 @@
 
 {% block css %}
 <link rel="stylesheet" href="/css/article/new.css" />
+<link rel="stylesheet" href="/css/article/_form.css">
 {% endblock %}
 
 {% block js %}
@@ -14,6 +15,14 @@
 {% endblock %}
 
 {% block content %}
-<p>{{ Message }}</p>
-<p>{{ Now }}</p>
+<!-- <p>{{ Message }}</p> -->
+<!-- <p>{{ Now }}</p> -->
+<div class="l-col l-row l-v-padd">
+  <div class="article-new l-row">
+    <div class="article-new__form l-row">
+      <!-- 外部のテンプレートファイルを読み込み -->
+      {% include "./_form.html" %}
+    </div>
+  </div>
+</div>
 {% endblock %}
