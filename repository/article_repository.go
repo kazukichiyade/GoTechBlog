@@ -12,5 +12,6 @@ func ArticleList() ([]*model.Article, error) {
 	if err := db.Select(&articles, query); err != nil {
 		return nil, err
 	}
+
 	return articles, nil
 }
