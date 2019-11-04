@@ -6,13 +6,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <title>{% block title %}MyTechBlog{% endblock %}</title>
-
+  <link rel="stylesheet" href="/css/layout.css">
   {% block css %}{% endblock %}
 </head>
 
 <body>
   <header>
-    <h1><a href="/">MyTechBlog</a></h1>
+    <div class="header">
+      <a class="header__logo" href="/">My Tech Blog</a>
+    </div>
   </header>
 
   <main>

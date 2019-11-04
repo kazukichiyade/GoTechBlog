@@ -1,0 +1,14 @@
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.header {
+  background: #333;
+  padding: 16px;
+  color: #fff;
+}
+
+.header__logo {
+  color: #fff;
+}
