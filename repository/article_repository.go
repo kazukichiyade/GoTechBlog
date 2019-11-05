@@ -6,6 +6,7 @@ import (
 )
 
 // ArticleList ...
+/* 戻り値ありの関数 */
 func ArticleList() ([]*model.Article, error) {
 	// 実行する SQL
 	query := `SELECT * FROM articles;`
