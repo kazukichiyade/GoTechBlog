@@ -21,6 +21,8 @@ import (
 /* 実行順(依存パッケージの読み込み > グローバル定数 > グローバル変数 > init() > main() の順に実行) */
 
 var db *sqlx.DB
+
+/* グローバル変数 */
 var e = createMux()
 
 func main() {
@@ -61,6 +63,7 @@ func connectDB() *sqlx.DB {
 	dsn := os.Getenv("DSN")
 	db, err := sqlx.Open("mysql", dsn)
 	// DBへ接続が失敗した場合エラーをだす処理(if文)
+	/* 例外処理 */
 	if err != nil {
 		e.Logger.Fatal(err)
 	}

@@ -1,11 +1,18 @@
 {% extends "../layout.html" %}
 
 {% block css %}
+<link rel="stylesheet" href="/css/vendor/prism.css" />
 <link rel="stylesheet" href="/css/article/new.css" />
-<link rel="stylesheet" href="/css/article/_form.css">
+<link rel="stylesheet" href="/css/article/_form.css" />
+<link rel="stylesheet" href="/css/article/_article.css" />
 {% endblock %}
 
 {% block js %}
+<!-- Remarkable(Markdown から HTML への変換) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/2.0.0/remarkable.min.js"></script>
+<script src="/js/vendor/prism.js"></script>
+<script src="/js/module/parser.js"></script>
+<script src="/js/module/form.js"></script>
 <script src="/js/article/new.js"></script>
 {% endblock %}
 
@@ -15,8 +22,8 @@
 {% endblock %}
 
 {% block content %}
-<!-- <p>{{ Message }}</p> -->
-<!-- <p>{{ Now }}</p> -->
+<!-- <p>{{ Message }}</p>
+<p>{{ Now }}</p> -->
 <div class="l-col l-row l-v-padd">
   <div class="article-new l-row">
     <div class="article-new__form l-row">
