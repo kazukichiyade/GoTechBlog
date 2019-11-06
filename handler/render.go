@@ -19,6 +19,9 @@ func htmlBlob(file string, data map[string]interface{}) ([]byte, error) {
 }
 
 func render(c echo.Context, file string, data map[string]interface{}) error {
+	// 発行されたトークンを HTML に渡すため
+	data["CSRF"] = c.Get("csrf").(string)
+
 	// 定義した htmlBlob() 関数を呼び出し、生成された HTML をバイトデータとして受け取る
 	b, err := htmlBlob(file, data)
 

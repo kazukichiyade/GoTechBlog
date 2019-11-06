@@ -48,6 +48,8 @@ func createMux() *echo.Echo {
 	e.Use(middleware.Recover())
 	e.Use(middleware.Logger())
 	e.Use(middleware.Gzip())
+	// CSRF対策(クロス・サイト・リクエスト・フォージェリ)
+	e.Use(middleware.CSRF())
 
 	// `src/css` ディレクトリ配下のファイルに `/css` のパスでアクセスできるようにする
 	e.Static("/css", "src/css")
