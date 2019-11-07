@@ -2,10 +2,11 @@ package repository
 
 import (
 	// model パッケージで定義した Article 構造体を利用するため、パッケージをインポート
+	"database/sql"
 	"go-tech-blog/model"
+	"time"
 )
 
-// ArticleList ...
 /* 戻り値ありの関数 */
 func ArticleList() ([]*model.Article, error) {
 	// 実行する SQL
@@ -20,4 +21,37 @@ func ArticleList() ([]*model.Article, error) {
 	}
 
 	return articles, nil
+}
+
+func ArticleCreate(article *model.Article) (sql.Result, error) {
+	// 現在日時を取得
+	now := time.Now()
+
+	// 構造体に現在日時を設定
+	article.Created = now
+	article.Updated = now
+
+	// クエリ文字列を生成
+	query := `INSERT INTO articles (title, body, created, updated)
+	VALUES (:title, :body, :created, :updated);`
+
+	// トランザクションを開始
+	tx := db.MustBegin()
+
+	// クエリ文字列と構造体を引数に渡して SQL を実行
+	// クエリ文字列内の「:title」「:body」「:created」「:updated」は構造体の値で置換
+	// 構造体タグで指定してあるフィールドが対象（`db:"title"` など）
+	res, err := tx.NamedExec(query, article)
+	if err != nil {
+		// エラーが発生した場合はロールバック
+		tx.Rollback()
+
+		// エラー内容を返却
+		return nil, err
+	}
+	// SQL の実行に成功した場合はコミット
+	tx.Commit()
+
+	// SQL の実行結果を返却
+	return res, nil
 }
