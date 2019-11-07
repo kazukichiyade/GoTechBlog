@@ -31,10 +31,12 @@ func main() {
 	repository.SetDB(db)
 
 	// `/` というパス（URL）と `articleIndex` という処理を結びつける(ルーティング追加)
+	/* handlerパッケージのArticle〇〇〇を呼び出し */
 	e.GET("/", handler.ArticleIndex)
 	e.GET("/new", handler.ArticleNew)
 	e.GET("/:id", handler.ArticleShow)
 	e.GET("/:id/edit", handler.ArticleEdit)
+	e.POST("/", handler.ArticleCreate)
 
 	// Webサーバーをポート番号 8080 で起動する
 	e.Logger.Fatal(e.Start(":8080"))
@@ -69,6 +71,7 @@ func connectDB() *sqlx.DB {
 	if err != nil {
 		e.Logger.Fatal(err)
 	}
+	/* 簡易文付きif文 */
 	if err := db.Ping(); err != nil {
 		e.Logger.Fatal(err)
 	}

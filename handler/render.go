@@ -13,7 +13,7 @@ import (
 const tmplPath = "src/template/"
 
 // pongo2を利用してテンプレートファイルとデータからHTMLを生成(HTMLをbyte型にしてreturn)
-/* 関数(map,slice) */
+/* 関数(引数map(型アサーション), 戻り値slice) */
 func htmlBlob(file string, data map[string]interface{}) ([]byte, error) {
 	return pongo2.Must(pongo2.FromCache(tmplPath + file)).ExecuteBytes(data)
 }
