@@ -40,6 +40,13 @@ func ArticleListByCursor(cursor int) ([]*model.Article, error) {
 	// クエリ結果を格納するスライスを初期化
 	// 10 件取得すると決まっているため、サイズ(要素数)とキャパシティ(容量)を指定
 	articles := make([]*model.Article, 0, 10)
+
+	// クエリ結果を格納する変数、クエリ文字列、パラメータを指定してクエリを実行
+	if err := db.Select(&articles, query, cursor); err != nil {
+		return nil, err
+	}
+
+	return articles, nil
 }
 
 func ArticleCreate(article *model.Article) (sql.Result, error) {
