@@ -92,8 +92,8 @@ func ArticleCreate(c echo.Context) error {
 		// エラーの内容をサーバーのログに出力
 		c.Logger().Error(err.Error())
 
-		// エラーの内容をレスポンスの構造体に格納
-		out.Message = err.Error()
+		// エラー内容を検査してカスタムエラーメッセージを取得
+		out.ValidationErrors = article.ValidationErrors(err)
 
 		// 解釈できたパラメータが許可されていない値の場合は422エラーを返却
 		return c.JSON(http.StatusUnprocessableEntity, out)
