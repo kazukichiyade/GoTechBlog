@@ -87,6 +87,18 @@ func ArticleCreate(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, out)
 	}
 
+	// バリデーションチェックを実行
+	if err := c.Validate(&article); err != nil {
+		// エラーの内容をサーバーのログに出力
+		c.Logger().Error(err.Error())
+
+		// エラー内容を検査してカスタムエラーメッセージを取得
+		out.ValidationErrors = article.ValidationErrors(err)
+
+		// 解釈できたパラメータが許可されていない値の場合は422エラーを返却
+		return c.JSON(http.StatusUnprocessableEntity, out)
+	}
+
 	// repository を呼び出して保存処理を実行
 	res, err := repository.ArticleCreate(&article)
 	if err != nil {
