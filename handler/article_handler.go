@@ -145,3 +145,23 @@ func ArticleDelete(c echo.Context) error {
 	// 成功時はステータスコード200を返却
 	return c.JSON(http.StatusOK, fmt.Sprintf("Article %d is deleted.", id))
 }
+
+func ArticleList(c echo.Context) error {
+	// クエリパラメータからカーソルの値を取得
+	// 文字列型で取得できるのでstrconvパッケージを用いて数値型にキャスト
+	cursor, _ := strconv.Atoi(c.QueryParam("cursor"))
+
+	// リポジトリの処理を呼び出して記事の一覧データを取得
+	// 引数にカーソルの値を渡して、ID のどの位置から 10 件取得するかを指定
+	articles, err := repository.ArticleListByCursor(cursor)
+	// エラーが発生した場合
+	if err != nil {
+		// サーバーのログにエラー内容を出力
+		c.Logger().Error(err.Error())
+
+		// クライアントにステータスコード 500 でレスポンスを返却
+		// HTML ではなく JSON 形式でデータのみを返却するため、
+		// c.HTMLBlob() ではなく c.JSON() を呼び出し
+		return c.JSON(http.StatusInternalServerError, "")
+	}
+}
