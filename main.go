@@ -39,6 +39,7 @@ func main() {
 	e.GET("/new", handler.ArticleNew)
 	e.GET("/:id", handler.ArticleShow)
 	e.GET("/:id/edit", handler.ArticleEdit)
+	e.GET("/", handler.ArticleList)
 	e.POST("/", handler.ArticleCreate)
 	e.DELETE("/:id", handler.ArticleDelete)
 
