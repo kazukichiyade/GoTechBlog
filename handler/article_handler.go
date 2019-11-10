@@ -13,24 +13,28 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// ArticleIndex ...
 // ハンドラ関数 テンプレートファイルとデータを指定して render() 関数を呼び出し
 func ArticleIndex(c echo.Context) error {
 	// リポジトリの処理を呼び出して記事の一覧データを取得
 	articles, err := repository.ArticleListByCursor(0)
+
 	// データベース操作でエラーが発生した場合の処理(500)
+	// エラーが発生した場合
 	if err != nil {
-		// エラーの内容をサーバーのログに出力
+		// エラー内容をサーバーのログに出力
 		c.Logger().Error(err.Error())
-		// クライアントにステータスコード500でレスポンスを返す
+
+		// クライアントにステータスコード 500 でレスポンスを返す
 		return c.NoContent(http.StatusInternalServerError)
 	}
-	// テンプレートに渡すデータをmapに格納
+
+	// テンプレートに渡すデータを map に格納
 	data := map[string]interface{}{
 		// HTMLでこれを使って表示する{{  }}
 		"Articles": articles, // 記事データをテンプレートエンジンに渡す
 	}
-	// テンプレートファイルとデータを指定して、HTMLを生成し、クライアントに返却
+
+	// テンプレートファイルとデータを指定して HTML を生成し、クライアントに返却
 	return render(c, "article/index.html", data)
 }
 
