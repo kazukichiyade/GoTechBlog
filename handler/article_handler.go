@@ -29,10 +29,17 @@ func ArticleIndex(c echo.Context) error {
 		return c.NoContent(http.StatusInternalServerError)
 	}
 
+	// 取得できた最後の記事の ID をカーソルとして設定
+	var cursor int
+	if len(articles) != 0 {
+		cursor = articles[len(articles)-1].ID
+	}
+
 	// テンプレートに渡すデータを map に格納
 	data := map[string]interface{}{
 		// HTMLでこれを使って表示する{{  }}
 		"Articles": articles, // 記事データをテンプレートエンジンに渡す
+		"Cursor":   cursor,
 	}
 
 	// テンプレートファイルとデータを指定して HTML を生成し、クライアントに返却
@@ -148,12 +155,13 @@ func ArticleDelete(c echo.Context) error {
 
 func ArticleList(c echo.Context) error {
 	// クエリパラメータからカーソルの値を取得
-	// 文字列型で取得できるのでstrconvパッケージを用いて数値型にキャスト
+	// 文字列型で取得できるので strconv パッケージを用いて数値型にキャスト
 	cursor, _ := strconv.Atoi(c.QueryParam("cursor"))
 
 	// リポジトリの処理を呼び出して記事の一覧データを取得
 	// 引数にカーソルの値を渡して、ID のどの位置から 10 件取得するかを指定
 	articles, err := repository.ArticleListByCursor(cursor)
+
 	// エラーが発生した場合
 	if err != nil {
 		// サーバーのログにエラー内容を出力
@@ -164,4 +172,8 @@ func ArticleList(c echo.Context) error {
 		// c.HTMLBlob() ではなく c.JSON() を呼び出し
 		return c.JSON(http.StatusInternalServerError, "")
 	}
+
+	// エラーがない場合は、ステータスコード 200 でレスポンスを返却
+	// JSON 形式で返却するため、c.HTMLBlob() ではなく c.JSON() を呼び出し
+	return c.JSON(http.StatusOK, articles)
 }
