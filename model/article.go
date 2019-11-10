@@ -13,11 +13,11 @@ import (
 // required(必須), max=50(最大50文字)
 /* Struct(構造体) */
 type Article struct {
-	ID      int       `db:"id" form:"id"`
-	Title   string    `db:"title" form:"title" validate:"required,max=50"`
-	Body    string    `db:"body" form:"body" validate:"required"`
-	Created time.Time `db:"created"`
-	Updated time.Time `db:"updated"`
+	ID      int       `db:"id" form:"id" json:"id"`
+	Title   string    `db:"title" form:"title" validate:"required,max=50" json:"title"`
+	Body    string    `db:"body" form:"body" validate:"required" json:"body"`
+	Created time.Time `db:"created" json:"created"`
+	Updated time.Time `db:"updated" json:"updated"`
 }
 
 func (a *Article) ValidationErrors(err error) []string {
