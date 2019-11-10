@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let statusCode;
 
     // Fetch API(非同期リクエスト) を利用して削除リクエストを送信
-    fetch(`/${id}`, {
+    fetch(`/api/articles/${id}`, {
       method: 'DELETE',
       headers: { 'X-CSRF-Token': csrfToken }
     })

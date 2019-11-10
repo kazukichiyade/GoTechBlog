@@ -16,6 +16,12 @@ import (
 
 // ハンドラ関数 テンプレートファイルとデータを指定して render() 関数を呼び出し
 func ArticleIndex(c echo.Context) error {
+	// "/articles" のパスでリクエストがあったら "/" にリダイレクト
+	// Google Analytics などでのアクセス解析時にパスが統一されて分析がしやすくなる
+	if c.Request().URL.Path == "/articles" {
+		c.Redirect(http.StatusPermanentRedirect, "/")
+	}
+
 	// リポジトリの処理を呼び出して記事の一覧データを取得
 	articles, err := repository.ArticleListByCursor(0)
 
@@ -59,7 +65,7 @@ func ArticleNew(c echo.Context) error {
 func ArticleShow(c echo.Context) error {
 	// パスパラメータを抽出(id=999でアクセスがあった場合c.Param("id")によって取り出す)
 	// c.Param()で取り出した値は文字列型になるのでstrconvパッケージのAtoi()関数で数値型にキャスト
-	id, _ := strconv.Atoi(c.Param("id"))
+	id, _ := strconv.Atoi(c.Param("articleID"))
 	data := map[string]interface{}{
 		"Message": "Article Show",
 		"Now":     time.Now(),
@@ -70,7 +76,7 @@ func ArticleShow(c echo.Context) error {
 
 // ArticleEdit ...
 func ArticleEdit(c echo.Context) error {
-	id, _ := strconv.Atoi(c.Param("id"))
+	id, _ := strconv.Atoi(c.Param("articleID"))
 	data := map[string]interface{}{
 		"Message": "Article Edit",
 		"Now":     time.Now(),
@@ -138,7 +144,7 @@ func ArticleCreate(c echo.Context) error {
 func ArticleDelete(c echo.Context) error {
 	// パスパラメータから記事 ID を取得
 	// 文字列型で取得されるので、strconv パッケージを利用して数値型にキャスト
-	id, _ := strconv.Atoi(c.Param("id"))
+	id, _ := strconv.Atoi(c.Param("articleID"))
 
 	// repositoryの記事削除処理を呼び出し
 	if err := repository.ArticleDelete(id); err != nil {
