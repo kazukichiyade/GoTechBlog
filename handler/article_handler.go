@@ -4,7 +4,6 @@ import (
 	// repository パッケージを利用するためインポート
 	"go-tech-blog/model"
 	"go-tech-blog/repository"
-	"log"
 
 	// HTTPを扱うパッケージ(標準パッケージ)
 	"net/http"
@@ -14,22 +13,28 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// ArticleIndex ...
 // ハンドラ関数 テンプレートファイルとデータを指定して render() 関数を呼び出し
 func ArticleIndex(c echo.Context) error {
-	// データベースから記事データの一覧を取得する
-	articles, err := repository.ArticleList()
+	// リポジトリの処理を呼び出して記事の一覧データを取得
+	articles, err := repository.ArticleListByCursor(0)
+
 	// データベース操作でエラーが発生した場合の処理(500)
+	// エラーが発生した場合
 	if err != nil {
-		log.Println(err.Error())
+		// エラー内容をサーバーのログに出力
+		c.Logger().Error(err.Error())
+
+		// クライアントにステータスコード 500 でレスポンスを返す
 		return c.NoContent(http.StatusInternalServerError)
 	}
+
+	// テンプレートに渡すデータを map に格納
 	data := map[string]interface{}{
 		// HTMLでこれを使って表示する{{  }}
-		"Message":  "Article Index Updated",
-		"Now":      time.Now(),
 		"Articles": articles, // 記事データをテンプレートエンジンに渡す
 	}
+
+	// テンプレートファイルとデータを指定して HTML を生成し、クライアントに返却
 	return render(c, "article/index.html", data)
 }
 
