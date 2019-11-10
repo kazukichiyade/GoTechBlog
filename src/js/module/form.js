@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let status;
 
-    // fetch API を利用してリクエストを送信
+    // fetch API(非同期リクエスト) を利用してリクエストを送信
     fetch(url, {
       method: method,
       headers: { 'X-CSRF-Token': csrfToken },

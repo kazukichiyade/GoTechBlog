@@ -40,6 +40,7 @@ func main() {
 	e.GET("/:id", handler.ArticleShow)
 	e.GET("/:id/edit", handler.ArticleEdit)
 	e.POST("/", handler.ArticleCreate)
+	e.DELETE("/:id", handler.ArticleDelete)
 
 	e.Validator = &CustomValidator{validator: validator.New()}
 
