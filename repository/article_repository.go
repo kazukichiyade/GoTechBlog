@@ -89,7 +89,7 @@ func ArticleDelete(id int) error {
 	// トランザクションを開始
 	tx := db.MustBegin()
 
-	// クエリ文字列とパラメータを指定してSQLを実行
+	// クエリ文字列とパラメータを指定して SQL を実行
 	if _, err := tx.Exec(query, id); err != nil {
 		// エラーが発生した場合はロールバック
 		tx.Rollback()
@@ -98,6 +98,6 @@ func ArticleDelete(id int) error {
 		return err
 	}
 
-	// エラーが無い場合はコミット
+	// エラーがない場合はコミット
 	return tx.Commit()
 }

@@ -143,5 +143,5 @@ func ArticleDelete(c echo.Context) error {
 	}
 
 	// 成功時はステータスコード200を返却
-	return c.JSON(http.StatusOK, fmt.Sprintf("Article %d is deleted", id))
+	return c.JSON(http.StatusOK, fmt.Sprintf("Article %d is deleted.", id))
 }
