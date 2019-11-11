@@ -82,6 +82,7 @@ func ArticleCreate(article *model.Article) (sql.Result, error) {
 	return res, nil
 }
 
+// 記事を削除する関数
 func ArticleDelete(id int) error {
 	// 記事データを削除するクエリ文字列を生成
 	query := "DELETE FROM articles WHERE id = ?"
@@ -103,7 +104,7 @@ func ArticleDelete(id int) error {
 }
 
 // 記事を一件取得する関数
-func ArticleGetById(id int) (*model.Article, error) {
+func ArticleGetByID(id int) (*model.Article, error) {
 
 	// クエリ文字列を生成
 	query := `SELECT *
