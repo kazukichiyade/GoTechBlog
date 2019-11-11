@@ -61,16 +61,27 @@ func ArticleNew(c echo.Context) error {
 	return render(c, "article/new.html", data)
 }
 
-// ArticleShow ...
 func ArticleShow(c echo.Context) error {
-	// パスパラメータを抽出(id=999でアクセスがあった場合c.Param("id")によって取り出す)
+	// パスパラメータから記事IDを取得(id=999でアクセスがあった場合c.Param("id")によって取り出す)
 	// c.Param()で取り出した値は文字列型になるのでstrconvパッケージのAtoi()関数で数値型にキャスト
 	id, _ := strconv.Atoi(c.Param("articleID"))
-	data := map[string]interface{}{
-		"Message": "Article Show",
-		"Now":     time.Now(),
-		"ID":      id,
+
+	// 記事データを取得
+	article, err := repository.ArticleGetByID(id)
+
+	if err != nil {
+		// エラー内容をサーバーのログに出力
+		c.Logger().Error(err.Error())
+
+		// ステータスコード500でレスポンスを返却
+		return c.NoContent(http.StatusInternalServerError)
 	}
+
+	// テンプレートに渡すデータをmapに格納
+	data := map[string]interface{}{
+		"Article": article,
+	}
+	// テンプレートファイルとデータを指定して HTML を生成し、クライアントに返却
 	return render(c, "article/show.html", data)
 }
 
