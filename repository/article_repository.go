@@ -127,7 +127,7 @@ func ArticleGetByID(id int) (*model.Article, error) {
 }
 
 func ArticleUpdate(article *model.Article) (sql.Result, error) {
-	// 現在日時を取得します
+	// 現在日時を取得
 	now := time.Now()
 
 	// 構造体に現在日時を設定
@@ -136,8 +136,8 @@ func ArticleUpdate(article *model.Article) (sql.Result, error) {
 	// クエリ文字列を生成
 	query := `UPDATE articles
 	SET title = :title,
-		body = :body,
-		updated = :updated
+			body = :body,
+			updated = :updated
 	WHERE id = :id;`
 
 	// トランザクションを開始
@@ -156,6 +156,7 @@ func ArticleUpdate(article *model.Article) (sql.Result, error) {
 		// エラーを返却
 		return nil, err
 	}
+
 	// エラーがない場合はコミット
 	tx.Commit()
 

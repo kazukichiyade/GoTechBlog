@@ -86,7 +86,6 @@ func ArticleShow(c echo.Context) error {
 	return render(c, "article/show.html", data)
 }
 
-// ArticleEdit ...
 func ArticleEdit(c echo.Context) error {
 	// パスパラメータから記事 ID を取得
 	// 文字列型で取得されるので、strconv パッケージを利用して数値型にキャスト

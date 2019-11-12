@@ -53,8 +53,6 @@ func main() {
 	e.DELETE("/api/articles/:articleID", handler.ArticleDelete) //削除
 	e.PATCH("/api/articles/:articleID", handler.ArticleUpdate)  //更新
 
-	e.Validator = &CustomValidator{validator: validator.New()}
-
 	// Webサーバーをポート番号 8080 で起動する
 	e.Logger.Fatal(e.Start(":8080"))
 }
