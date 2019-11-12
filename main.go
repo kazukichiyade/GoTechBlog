@@ -51,8 +51,7 @@ func main() {
 	e.GET("/api/articles", handler.ArticleList)                 // 一覧
 	e.POST("/api/articles", handler.ArticleCreate)              // 作成
 	e.DELETE("/api/articles/:articleID", handler.ArticleDelete) //削除
-
-	e.Validator = &CustomValidator{validator: validator.New()}
+	e.PATCH("/api/articles/:articleID", handler.ArticleUpdate)  //更新
 
 	// Webサーバーをポート番号 8080 で起動する
 	e.Logger.Fatal(e.Start(":8080"))
