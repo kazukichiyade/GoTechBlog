@@ -65,6 +65,7 @@ func ArticleNew(c echo.Context) error {
 func ArticleShow(c echo.Context) error {
 	// パスパラメータから記事IDを取得(id=999でアクセスがあった場合c.Param("id")によって取り出す)
 	// c.Param()で取り出した値は文字列型になるのでstrconvパッケージのAtoi()関数で数値型にキャスト
+	/* strconv.Atoi(文字列を数値に型変換する) 戻り値はintとerrに標準でなっている */
 	id, _ := strconv.Atoi(c.Param("articleID"))
 
 	// 記事データを取得
@@ -221,6 +222,7 @@ func ArticleUpdate(c echo.Context) error {
 	ref := c.Request().Referer()
 
 	// リクエスト送信元のパスから記事 ID を抽出
+	/* strings.Split(文字列の分割) */
 	refID := strings.Split(ref, "/")[4]
 
 	// リクエスト URL のパスパラメータから記事 ID を抽出

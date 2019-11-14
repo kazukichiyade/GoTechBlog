@@ -72,6 +72,9 @@ func createMux() *echo.Echo {
 	e.Static("/css", "src/css")
 	e.Static("/js", "src/js")
 
+	// バリデーションを使うのに必要
+	e.Validator = &CustomValidator{validator: validator.New()}
+
 	// アプリケーションインスタンスを返却
 	return e
 }
